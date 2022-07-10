@@ -4,8 +4,9 @@ const express = require("express");
 const res = require("express/lib/response");
 const { get } = require("express/lib/response");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
-const postsRouter = require("./routers/post.router");
+const donationsRouter = require("./routers/index");
 //inicializamos constantes con la configuración
 const PORT = process.env.PORT;
 const DB_USER = process.env.DB_USER;
@@ -17,16 +18,14 @@ const URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retry
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
-
-app.use("/posts", postsRouter);
+app.use("/donations", donationsRouter);
 
 mongoose
   .connect(URL)
   .then(() => {
-    console.log(
-      "Estamos conectados a la base de datos de donaciones
-    );
+    console.log("Estamos conectados a la base de datos de donaciones");
     app.listen(PORT, () => {
       console.log("Server ejecutandose en el puerto", PORT);
     });

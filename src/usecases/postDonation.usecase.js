@@ -1,12 +1,12 @@
-const Post = require("../models/postDonation.model");
+const Donation = require("../models/postDonation.model");
 
 async function createDonation(donation) {
-  const newDonation = new Post(donation);
+  const newDonation = new Donation(donation);
 
-  await Post.create(newPost);
+  await Donation.create(newDonation);
 }
 
-async function getDonations(donations) {
+async function getDonations() {
   const donations = fetch("xxxx");
   const parsedDonations = JSON.parse(donations);
 

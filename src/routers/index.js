@@ -15,3 +15,5 @@ router.get("/", async (req, res) => {
 
   res.json(donations);
 });
+
+module.exports = router;

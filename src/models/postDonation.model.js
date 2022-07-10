@@ -30,6 +30,6 @@ const postDonationSchema = new mongoose.Schema({
   foodCondition: String,
 });
 
-const Post = mongoose.model("posts", postDonationSchema);
+const Donation = mongoose.model("donation", postDonationSchema);
 
-module.exports = Post;
+module.exports = Donation;
