@@ -11,9 +11,26 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const donations = await Post.getDonations();
+  const filter = {};
+  const donations = await Post.getDonations(filter);
 
   res.json(donations);
+});
+
+router.patch("/:id", async (req, res) => {
+  const id = req.params.id;
+  const DonationInfo = req.body;
+  const updatedDonation = await Post.updateDonation(id, DonationInfo);
+
+  res.json(updatedDonation);
+});
+
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const deletedDonation = await Post.deleteDonation(id);
+
+  res.json(deletedDonation);
 });
 
 module.exports = router;
