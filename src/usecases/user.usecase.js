@@ -3,7 +3,7 @@ const jwt = require("../lib/jwt.lib")
 const bcrypt = require('bcrypt');
 
 
-const validarRegistro = (Nombre,Apellio,Direccion,Colonia,Numero,Estado, Ciudad, email, password,telefono, genero, userName) => {
+const validarRegistro = (Nombre,Apellido,Direccion,Colonia,Numero,Estado, Ciudad, email, password,telefono, genero, userName) => {
   return bcrypt.hash(password, 10)
 }
 
