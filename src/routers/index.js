@@ -11,7 +11,11 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const filter = {};
+  const foodDescription = req.query.foodDescriptions;
+  filter = {};
+  if (foodDescription != undefined) {
+    filter.foodDescription = foodDescription;
+  }
   const donations = await Post.getDonations(filter);
 
   res.json(donations);

@@ -9,6 +9,7 @@ async function createDonation(donation) {
 async function getDonations(filter) {
   // const donations = fetch("xxxx");
   const Donations = await Donation.find(filter);
+  console.log(Donations);
   return Donations;
 }
 async function updateDonation(id, DonationInfo) {
