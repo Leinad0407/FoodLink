@@ -7,7 +7,6 @@ async function createDonation(donation) {
 }
 
 async function getDonations(filter) {
-  // const donations = fetch("xxxx");
   const Donations = await Donation.find(filter);
   return Donations;
 }
@@ -17,6 +16,7 @@ async function updateDonation(id, DonationInfo) {
   };
   await Donation.findOneAndUpdate(filter, DonationInfo);
   const updatedDonation = Donation.findOne(filter);
+  console.log(updatedDonation);
   return updatedDonation;
 }
 
@@ -29,9 +29,19 @@ async function deleteDonation(id) {
   return Donations;
 }
 
+async function detailDonation(id) {
+  const filter = {
+    _id: id,
+  };
+
+  const singleDonation = await Donation.findById(filter);
+  return singleDonation;
+}
+
 module.exports = {
   createDonation,
   getDonations,
   updateDonation,
   deleteDonation,
+  detailDonation,
 };
