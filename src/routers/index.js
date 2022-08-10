@@ -13,7 +13,8 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   const foodDescription = req.query.foodDescription;
   const address = req.query.address;
-  const filter = {};
+  //este es el filtro que nos permite ver donaciones que están activas//
+  const filter = { status: "active" };
   if (address != undefined) {
     filter.address = address;
   }
@@ -35,11 +36,23 @@ router.get("/:id", async (req, res) => {
   res.json(singleDonation);
 });
 
-router.patch("/:id", async (req, res) => {
+// router.patch("/:id", async (req, res) => {
+//   const id = req.params.id;
+//   console.log(id);
+
+//   const singleDonation = await Post.updateDonation(id);
+//   console.log(singleDonation);
+
+//   res.json(singleDonation);
+// });
+router.put("/:id", async (req, res) => {
   const id = req.params.id;
   console.log(id);
 
-  const singleDonation = await Post.detailDonation(id);
+  const DonationInfo = req.body;
+  console.log(DonationInfo);
+
+  const singleDonation = await Post.updateDonation(id, DonationInfo);
   console.log(singleDonation);
 
   res.json(singleDonation);
