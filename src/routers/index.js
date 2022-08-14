@@ -4,10 +4,9 @@ const Post = require("../usecases/postDonation.usecase");
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
-  const newDonation = await Post.createDonation(req.body);
-
-  res.json(newDonation);
+app.post("/", async (req, res) => {
+  const donations = await Post.createDonation(req.body);
+  res.json(donations);
 });
 
 router.get("/", async (req, res) => {
@@ -24,20 +23,23 @@ router.get("/", async (req, res) => {
   res.json(donations);
 });
 
-router.patch("/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   const id = req.params.id;
-  const DonationInfo = req.body;
-  const updatedDonation = await Post.updateDonation(id, DonationInfo);
+  console.log(id);
+  // const DonationInfo = await res;
+  // console.log(DonationInfo);
+  const singleDonation = await Post.detailDonation(id);
+  console.log(singleDonation);
 
-  res.json(updatedDonation);
+  res.json(singleDonation);
 });
 
-router.delete("/:id", async (req, res) => {
-  const id = req.params.id;
+// router.delete("/:id", async (req, res) => {
+//   const id = req.params.id;
 
-  const deletedDonation = await Post.deleteDonation(id);
+//   const deletedDonation = await Post.deleteDonation(id);
 
-  res.json(deletedDonation);
-});
+//   res.json(deletedDonation);
+// });
 
 module.exports = router;
