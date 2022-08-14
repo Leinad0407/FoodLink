@@ -10,9 +10,16 @@ app.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
+  const foodDescription = req.query.foodDescription;
+  const address = req.query.address;
   const filter = {};
+  if (address != undefined) {
+    filter.address = address;
+  }
+  if (foodDescription != undefined) {
+    filter.foodDescription = foodDescription;
+  }
   const donations = await Post.getDonations(filter);
-
   res.json(donations);
 });
 
