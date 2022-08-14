@@ -4,7 +4,7 @@ const Post = require("../usecases/postDonation.usecase");
 
 const router = express.Router();
 
-app.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const donations = await Post.createDonation(req.body);
   res.json(donations);
 });
@@ -34,12 +34,12 @@ router.get("/:id", async (req, res) => {
   res.json(singleDonation);
 });
 
-// router.delete("/:id", async (req, res) => {
-//   const id = req.params.id;
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
 
-//   const deletedDonation = await Post.deleteDonation(id);
+  const deletedDonation = await Post.deleteDonation(id);
 
-//   res.json(deletedDonation);
-// });
+  res.json(deletedDonation);
+});
 
 module.exports = router;
