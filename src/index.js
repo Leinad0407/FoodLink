@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const donationsRouter = require("./routers/index");
+const profileRouter = require("./routers/profile.js");
 const { getDonations } = require("./usecases/postDonation.usecase");
 //inicializamos constantes con la configuración
 const PORT = process.env.PORT;
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/donations", donationsRouter);
+app.use("/profile", profileRouter);
 
 mongoose
   .connect(URL)
@@ -29,7 +31,6 @@ mongoose
     console.log("Estamos conectados a la base de datos de donaciones");
     app.listen(PORT, () => {
       console.log("Server ejecutandose en el puerto", PORT);
-      console.log(getDonations());
     });
   })
   .catch((error) => {
