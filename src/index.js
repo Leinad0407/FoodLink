@@ -6,9 +6,6 @@ const { get } = require("express/lib/response");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-//Service S3
-const upload = require("./usecases/userController");
-
 const donationsRouter = require("./routers/index");
 const { getDonations } = require("./usecases/postDonation.usecase");
 //inicializamos constantes con la configuración
@@ -25,7 +22,6 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/donations", donationsRouter);
-app.use("/imagesFood", donationsRouter);
 
 mongoose
   .connect(URL)
@@ -39,5 +35,3 @@ mongoose
   .catch((error) => {
     console.error("Hubo un error:", error);
   });
-
-console.log(upload);

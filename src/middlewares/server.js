@@ -4,7 +4,18 @@ const multer = require("multer");
 const express = require("express");
 var CryptoJS = require("crypto-js");
 const sharp = require("sharp");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
+
+const {
+  getSignedUrl,
+  S3RequestPresigner,
+} = require("@aws-sdk/s3-request-presigner");
+
 const ImagesFood = require("../models/foodImages");
 
 const randomImageName = (bytes = 32) =>
@@ -28,14 +39,26 @@ const app = express();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.get("/api/posts", upload.single("image"), async (req, res) => {
+app.get("/upload", upload.single("image"), async (req, res) => {
   const posts = await ImagesFood.findMany({
     orderBy: [{ creagted: "desc" }],
   });
+
+  for (const post of post) {
+    const getObjectParams = {
+      Bucket: S3_BUCKET_NAME,
+      Key: post.imageName,
+    };
+    const command = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(s3, command, {
+      expiresIn: 60,
+    });
+    post.imageUrl = url;
+  }
   res.send(posts);
 });
 
-app.post("/api/posts", upload.single("image"), async (req, res) => {
+app.post("/upload", upload.single("image"), async (req, res) => {
   console.log("req.body", req.body);
   console.log("req.file", req.file);
 
@@ -65,9 +88,26 @@ app.post("/api/posts", upload.single("image"), async (req, res) => {
   res.send(post);
 });
 
-app.delete("/api/posts/:id", async (req, res) => {
+app.delete("/upload/:id", async (req, res) => {
   const id = +req.params.id;
-  res.send({});
+
+  const post = await ImagesFood.posts.findUnique({ where: { id } });
+  if (!post) {
+    res.status(404).send("Post not found");
+    return;
+  }
+
+  const params = {
+    Bucket: S3_BUCKET_NAME,
+    Key: post.imageName,
+  };
+
+  const command = new DeleteObjectCommand(params);
+  await s3.send(command);
+
+  await ImagesFood.posts.delete({ where: { id } });
+
+  res.send(post);
 });
 
 app.listen(8080, () => console.log("Listening on the port 8080"));
