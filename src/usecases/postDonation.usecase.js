@@ -8,6 +8,7 @@ async function createDonation(donation) {
 
 async function getDonations(filter) {
   const Donations = await Donation.find(filter);
+
   return Donations;
 }
 async function updateDonation(id, DonationInfo) {

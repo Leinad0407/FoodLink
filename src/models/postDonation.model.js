@@ -8,6 +8,10 @@ const mongoose = require("mongoose");
 const postDonationSchema = new mongoose.Schema({
   id: String,
   userName: String,
+  status: {
+    type: String,
+    required: true,
+  },
   food: {
     type: String,
     required: true,
