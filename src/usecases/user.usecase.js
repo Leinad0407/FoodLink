@@ -9,7 +9,7 @@ const validarRegistro = (Nombre,Apellido,Direccion,Colonia,Numero,Estado, Ciudad
 
 const validarIniciarSesion = async (email, password) => {
   const user = await User.findOne({ email })
-
+// Mensaje de error en caso de que se ingrese datos incorrectos
   if(!user) throw Error("Correo erroneo")
 
   const isValid = await bcrypt.compare(password, user.password)
@@ -29,7 +29,7 @@ const register = async (data) => {
   const userCreated = User.create(data)
   return userCreated
 }
-
+//Validacion de inicio de sesion ingresando correo y contrasena
 const login = async (data) => {
   const token = await validarIniciarSesion(data.email, data.password)
   return token
