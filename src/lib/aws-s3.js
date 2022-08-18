@@ -3,6 +3,7 @@ const express = require("express");
 const multer = require("multer");
 var AWS = require("aws-sdk");
 const router = express.Router();
+const fs = require("fs");
 
 AWS.config.update({
   region: process.env.S3_BUCKET_REGION,
@@ -10,7 +11,7 @@ AWS.config.update({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
 });
 
-const S3_BUCKET = process.env.S3_BUCKET_NAME;
+const BUCKET = process.env.S3_BUCKET_NAME;
 
 router.post("/", async (req, res) => {
   const s3 = new AWS.S3();
@@ -19,8 +20,8 @@ router.post("/", async (req, res) => {
   const folder = req.body.folder;
 
   const s3Params = {
-    Bucket: S3_BUCKET + "/" + folder,
-    Key: fileName,
+    Bucket: BUCKET + "/" + folder,
+    Key: "image.jpg",
     Expires: 500,
     ContentType: fileType,
     ACL: "public-read",
@@ -54,7 +55,7 @@ var upload = multer({
 });
 
 // module.exports = { upload };
-module.exports = router;
+module.exports = { upload };
 
 /*<----------------------------------------->*/
 

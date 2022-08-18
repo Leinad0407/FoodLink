@@ -9,6 +9,7 @@ const cors = require("cors");
 const donationsRouter = require("./routers/index");
 const imagesRouter = require("./routers/images.route");
 const imagesRouterS3 = require("./lib/aws-s3");
+// const imagesRouterS3_2 = require("./lib/aws-s3(2)");
 const { getDonations } = require("./usecases/postDonation.usecase");
 //inicializamos constantes con la configuración
 const PORT = process.env.PORT;
@@ -24,8 +25,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/donations", donationsRouter);
-app.use("/api/uploadImage/s3", imagesRouterS3);
-app.use("/api/uploadImage", imagesRouter);
+app.use("/api/uploadImage/s3", imagesRouter);
+// app.use("/api/uploadImage", imagesRouter);
+// app.use("/api/uploadImage-2", imagesRouterS3_2);
 
 mongoose
   .connect(URL)
