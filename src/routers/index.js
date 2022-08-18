@@ -4,7 +4,7 @@ const Post = require("../usecases/postDonation.usecase");
 
 const router = express.Router();
 
-app.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const donations = await Post.createDonation(req.body);
   res.json(donations);
 });

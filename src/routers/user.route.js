@@ -1,46 +1,47 @@
-const express = require("express")
-const { register, login, subirComida } = require("../usecases/user.usecase")
-const { auth } = require("../middlewares/auth.middleware")
+const express = require("express");
+// const {
+//   register,
+//   login,
+//   subirComida,
+//   createUser,
+// } = require("../usecases/user.usecase");
+// const { auth } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
-router.post("/", async (request, response) => {
+const User = require("../usecases/user.usecase");
 
-  console.log("body", request.body)
+router.post("/", async (req, res) => {
   try {
-    const user = await register(request.body)
+    console.log("si jala esto");
+    const users = await User.createUser(req.body);
 
-    response.status(201)
+    res.status(200);
+    res.json(users);
+  } catch (err) {
+    res.status(400);
+    res.json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+router.get("/auth", async (request, response) => {
+  try {
+    const token = await login(request.body);
+    response.status(201);
     response.json({
       success: true,
       data: {
-        user
-      }
-    })
-  }catch(err) {
-    response.status(400)
+        token,
+      },
+    });
+  } catch (err) {
+    response.status(401);
     response.json({
       success: false,
-      message: err.message
-    })
+      message: err.message,
+    });
   }
-})
-
-router.post("/auth", async (request, response) => {
-  try {
-    const token = await login(request.body)
-    response.status(201)
-    response.json({
-      success: true,
-      data: {
-        token
-      }
-    })
-  }catch(err) {
-    response.status(401)
-    response.json({
-      success: false,
-      message: err.message
-    })
-  }
-})
-module.exports = router
+});
+module.exports = router;
