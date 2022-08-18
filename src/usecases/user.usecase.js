@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
-// const jwt = require("../lib/jwt.lib");
-// const bcrypt = require("../lib/encryptor");
+const jwt = require("../lib/jwt.lib");
+const bcrypt = require("../lib/encryptor");
 
 const validarRegistro = (
   Nombre,
