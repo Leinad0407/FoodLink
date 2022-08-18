@@ -26,7 +26,10 @@ const postDonationSchema = new mongoose.Schema({
     required: true,
   },
   phoneNumber: String,
-  tags: Array,
+  tags: {
+    type: String,
+    required: true,
+  },
   postedDate: {
     type: String,
     required: true,

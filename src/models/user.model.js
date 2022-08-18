@@ -1,61 +1,60 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    nombre: {
-        type: String,
-        minlength: 3
-      },
-    Apellido: {
-        type: String,
-        minlength: 3
-      },
-    Direccion: {
-        type: String,
-        minlength: 3
-      },
-    Colonia: {
-        type: String,
-        minlength: 3
-      },
-    Numero: {
-        type: String,
-        minlength: 3
-      },
-    Estado: {
-        type: String,
-        minlength: 3
-      },
-    Ciudad: {
-        type: String,
-        minlength: 3
-      },
-    email: {
-        type: String,
-        required: true,
-        unique: true
+  firstName: {
+    type: String,
+    minlength: 3,
   },
-    password: {
-        type: String,
-        required: true,
-        minlength: 3
+  lastName: {
+    type: String,
+    minlength: 3,
   },
-    Telefono: {
-        type: Number,
-        minlength: 3
+  address: {
+    type: Object,
   },
-    Negocio: {
-        type: String,
-        minlength: 3
+  // Colonia: {
+  //   type: String,
+  //   minlength: 3,
+  // },
+  // Numero: {
+  //   type: String,
+  //   minlength: 3,
+  // },
+  // Estado: {
+  //   type: String,
+  //   minlength: 3,
+  // },
+  // Ciudad: {
+  //   type: String,
+  //   minlength: 3,
+  // },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
   },
-    Genero: {
-        type: Radio,
-        minlength: 3
+  password: {
+    type: String,
+    required: true,
+    minlength: 3,
   },
-    userName: {
-        type: String,
-        minlength: 3
+  phoneNumber: {
+    type: Number,
+    minlength: 3,
   },
-  
-})
+  // Negocio: {
+  //   type: String,
+  //   minlength: 3,
+  // },
+  gender: {
+    type: String,
+    minlength: 3,
+  },
+  userTyper: {
+    type: String,
+    minlength: 3,
+  },
+});
+const User = mongoose.model("user", userSchema);
 
-module.exports = mongoose.model("users", userSchema)
+module.exports = User;

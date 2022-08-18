@@ -8,6 +8,7 @@ const cors = require("cors");
 
 const donationsRouter = require("./routers/index");
 const profileRouter = require("./routers/profile.js");
+const registerRouter = require("./routers/user.route");
 const { getDonations } = require("./usecases/postDonation.usecase");
 //inicializamos constantes con la configuración
 const PORT = process.env.PORT;
@@ -24,6 +25,7 @@ app.use(cors());
 
 app.use("/donations", donationsRouter);
 app.use("/profile", profileRouter);
+app.use("/registro", registerRouter);
 
 mongoose
   .connect(URL)
