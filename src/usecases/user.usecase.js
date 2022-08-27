@@ -43,14 +43,47 @@ const register = async (data) => {
 };
 //Validacion de inicio de sesion ingresando correo y contrasena
 
-const login = async (data) => {
-  const token = await validarIniciarSesion(data.email, data.password);
-  return token;
-};
+// const login = async (data) => {
+//   const token = await validarIniciarSesion(data.email, data.password);
+//   return token;
+// };
 async function createUser(user) {
   const newUser = new User(user);
 
   await User.create(newUser);
 }
+// Aqui empezará el login y auth
+async function login({ username, password }) {
+  const userFound = await User.findOne({ username });
 
-module.exports = { register, login, createUser };
+  if (!userFound) throw new Error("User not found");
+
+  const encryptedPassword = userFound.password;
+  const isCorrectPassword = await compare(password, encryptedPassword);
+
+  if (!isCorrectPassword) throw new Error("Wrong password");
+
+  const token = sign({ id: userFound._id });
+  return token;
+}
+
+async function getUser({ username, password }) {
+  const userFound = await User.findOne({ username });
+
+  if (!userFound) throw new Error("User not found");
+
+  const encryptedPassword = userFound.password;
+  const isCorrectPassword = await compare(password, encryptedPassword);
+
+  if (!isCorrectPassword) throw new Error("Wrong password");
+
+  const token = {
+    id: userFound._id,
+    userName: userFound.username,
+    userCategory: userFound.userType,
+    userRestaurant: userFound.restaurants,
+  };
+  return token;
+}
+
+module.exports = { register, login, createUser, getUser };

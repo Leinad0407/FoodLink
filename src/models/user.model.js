@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
   },
   lastName: {
     type: String,
-    minlength: 3,
   },
   address: {
     type: Object,
@@ -41,18 +40,19 @@ const userSchema = new mongoose.Schema({
   phoneNumber: {
     type: Number,
     minlength: 3,
+    maxlength: 3,
   },
-  // Negocio: {
-  //   type: String,
-  //   minlength: 3,
-  // },
+  businessType: {
+    type: String,
+    minlength: 3,
+  },
   gender: {
     type: String,
-    minlength: 3,
   },
-  userTyper: {
+  userType: {
     type: String,
     minlength: 3,
+    required: true,
   },
 });
 const User = mongoose.model("user", userSchema);

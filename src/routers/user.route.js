@@ -11,19 +11,19 @@ const router = express.Router();
 const User = require("../usecases/user.usecase");
 
 router.post("/", async (req, res) => {
-  try {
-    console.log("si jala esto");
-    const users = await User.createUser(req.body);
+  // try {
+  // console.log("si jala esto");
+  const users = await User.createUser(req.body);
 
-    res.status(200);
-    res.json(users);
-  } catch (err) {
-    res.status(400);
-    res.json({
-      success: false,
-      message: err.message,
-    });
-  }
+  // res.status(200);
+  res.json(users);
+  // } catch (err) {
+  //   res.status(400);
+  //   res.json({
+  //     success: false,
+  //     message: err.message,
+  //   });
+  // }
 });
 
 router.get("/auth", async (request, response) => {
