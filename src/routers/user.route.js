@@ -26,6 +26,7 @@ router.post("/", async (req, res) => {
   // }
 });
 
+//Acceso del Login para que el usuario puedo logearse
 router.get("/auth", async (request, response) => {
   try {
     const token = await login(request.body);

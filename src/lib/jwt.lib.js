@@ -8,6 +8,7 @@ const sign = (payload = {}) => {
 
 const verify = (token) => {
   return jwt.verify(token, JWT_SECRET)
+  //Verificacion del usuario
 }
 
 module.exports = { sign, verify }

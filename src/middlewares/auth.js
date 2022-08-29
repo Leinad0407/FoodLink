@@ -2,6 +2,7 @@ const { verify } = require("../lib/jwt");
 
 function auth(req, res, next) {
   try {
+    //Requerimiento de autorizacion
     const token = req.headers.authorization;
     if (!token) throw new Error("Token not provided");
 

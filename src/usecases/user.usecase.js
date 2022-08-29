@@ -18,7 +18,7 @@ const validarRegistro = (
 ) => {
   return bcrypt.hash(password, 10);
 };
-
+//Validacion al IniciarSesion
 const validarIniciarSesion = async (email, password) => {
   const user = await User.findOne({ email });
   // Mensaje de error en caso de que se ingrese datos incorrectos
