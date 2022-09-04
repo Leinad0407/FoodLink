@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
   phoneNumber: {
     type: Number,
     minlength: 3,
-    maxlength: 3,
+    maxlength: 10,
   },
   businessType: {
     type: String,
