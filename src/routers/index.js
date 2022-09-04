@@ -8,7 +8,7 @@ router.post("/", async (req, res) => {
   const donations = await Post.createDonation(req.body);
   res.json(donations);
 });
-
+//conseguir todas las donaciones que estén activas
 router.get("/", async (req, res) => {
   const foodDescription = req.query.foodDescription;
   const address = req.query.address;
@@ -23,39 +23,36 @@ router.get("/", async (req, res) => {
   const donations = await Post.getDonations(filter);
   res.json(donations);
 });
-
+//conseguir donación unica
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
-  console.log(id);
-  // const DonationInfo = await res;
-  // console.log(DonationInfo);
+
   const singleDonation = await Post.detailDonation(id);
-  console.log(singleDonation);
 
   res.json(singleDonation);
 });
+//apartar donación
+router.patch("/detail/:id", async (req, res) => {
+  console.log("algo pasa");
+  const id = req.params.id;
+  const DonationInfo = req.body;
 
-// router.patch("/:id", async (req, res) => {
+  const donations = await Post.updateDonation(id, DonationInfo);
+  res.json(donations);
+});
+//Reemplazar contenido de una donación ya creada
+// router.put("/:id", async (req, res) => {
 //   const id = req.params.id;
 //   console.log(id);
 
-//   const singleDonation = await Post.updateDonation(id);
+//   const DonationInfo = req.body;
+//   console.log(DonationInfo);
+
+//   const singleDonation = await Post.updateDonation(id, DonationInfo);
 //   console.log(singleDonation);
 
 //   res.json(singleDonation);
 // });
-router.put("/:id", async (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-
-  const DonationInfo = req.body;
-  console.log(DonationInfo);
-
-  const singleDonation = await Post.updateDonation(id, DonationInfo);
-  console.log(singleDonation);
-
-  res.json(singleDonation);
-});
 
 // router.delete("/:id", async (req, res) => {
 //   const id = req.params.id;
