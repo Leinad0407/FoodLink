@@ -31,6 +31,14 @@ router.get("/:id", async (req, res) => {
 
   res.json(singleDonation);
 });
+//conseguir datos de contacto de donador
+router.get("/detail/:id/orderReady/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const singleDonation = await Post.detailDonation(id);
+
+  res.json(singleDonation);
+});
 //apartar donación
 router.patch("/detail/:id", async (req, res) => {
   console.log("algo pasa");

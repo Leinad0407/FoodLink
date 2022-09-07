@@ -35,7 +35,7 @@ async function detailDonation(id) {
     _id: id,
   };
 
-  const singleDonation = await Donation.findById(filter);
+  const singleDonation = await Donation.findOne(filter);
   return singleDonation;
 }
 
