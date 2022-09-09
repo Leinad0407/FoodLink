@@ -5,10 +5,12 @@ const res = require("express/lib/response");
 const { get } = require("express/lib/response");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const expressfileupload = require("express-fileupload");
 
 const donationsRouter = require("./routers/index");
-const imagesRouter = require("./routers/images.route");
-const imagesRouterS3 = require("./lib/aws-s3");
+const userRouter = require("./routers/userRoutes");
+// const imagesRouter = require("./routers/images.route");
+// const imagesRouterS3 = require("./lib/aws-s3");
 // const imagesRouterS3_2 = require("./lib/aws-s3(2)");
 const { getDonations } = require("./usecases/postDonation.usecase");
 //inicializamos constantes con la configuración
@@ -25,7 +27,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/donations", donationsRouter);
-app.use("/api/uploadImage/s3", imagesRouter);
+app.use("/users", userRouter);
+// app.use("/api/uploadImage/s3", imagesRouter);
 // app.use("/api/uploadImage", imagesRouter);
 // app.use("/api/uploadImage-2", imagesRouterS3_2);
 

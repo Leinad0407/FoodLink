@@ -3,6 +3,7 @@ const express = require("express");
 const multer = require("multer");
 var AWS = require("aws-sdk");
 const router = express.Router();
+var CryptoJS = require("crypto-js");
 
 // const {
 //   S3Client,
@@ -103,6 +104,8 @@ const router = express.Router();
 //   res.send({});
 // });
 
+/*<------------------------------------------------------------------>*/
+
 AWS.config.update({
   region: process.env.S3_BUCKET_REGION,
   accessKeyId: process.env.S3_ACCESS_KEY,
@@ -113,13 +116,13 @@ const BUCKET = process.env.S3_BUCKET_NAME;
 
 router.post("/", async (req, res) => {
   const s3 = new AWS.S3();
-  const fileName = req.body.fileName;
+  const fileName = req.body.file.name;
   const fileType = req.body.fileType;
   const folder = req.body.folder;
 
   const s3Params = {
-    Bucket: BUCKET,
-    Key: "file",
+    Bucket: BUCKET + "/" + folder,
+    Key: fileName,
     Expires: 500,
     ContentType: fileType,
     ACL: "public-read",
@@ -145,6 +148,19 @@ router.delete("/", (req, res) => {
   return res.status(200).json({ result: true, msg: "archivo borrado" });
 });
 
+storage = multer.memoryStorage();
+
+const maxSize = 1920 * 1080 * 5;
+var upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: maxSize,
+  },
+});
+
+// module.exports = router;
+
+/*<----------------------------------------------------------------------------->*/
 // router.get("/", async (req, res) => {
 //   const posts = await ImagesFood.find({
 //     orderBy: [{ created: "desc" }],
@@ -162,15 +178,18 @@ router.delete("/", (req, res) => {
 // }
 
 //Preguntar
+/*<------------------------------------------------------------------------>*/
 
-storage = multer.memoryStorage();
+// const upload = multer({ dest: "uploads/" });
 
-const maxSize = 1920 * 1080 * 5;
-var upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: maxSize,
-  },
-});
+// router.post("/", (req, res) => {
+//   const file = req.file;
+//   console.log(file);
+//   res.send("Estoy funcinando");
+// });
 
+// router.delete("/", (req, res) => {
+//   console.log("La imagen fué borrada");
+//   return res.status(200).json({ result: true, msg: "archivo borrado" });
+// });
 module.exports = router;
