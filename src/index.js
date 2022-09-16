@@ -8,9 +8,8 @@ const cors = require("cors");
 
 const donationsRouter = require("./routers/index");
 const uploadImages = require("./routers/userRoutes");
-// const imagesRouter = require("./routers/images.route");
-// const imagesRouterS3 = require("./lib/aws-s3");
-// const imagesRouterS3_2 = require("./lib/aws-s3(2)");
+const foodImages = require("./routers/foodImage");
+
 const { getDonations } = require("./usecases/postDonation.usecase");
 //inicializamos constantes con la configuración
 const PORT = process.env.PORT;
@@ -27,6 +26,7 @@ app.use(cors());
 
 app.use("/donations", donationsRouter);
 app.use("/users", uploadImages);
+app.use("/imagesFood", foodImages);
 // app.use("/api/uploadImage/s3", imagesRouter);
 // app.use("/api/uploadImage", imagesRouter);
 // app.use("/api/uploadImage-2", imagesRouterS3_2);
