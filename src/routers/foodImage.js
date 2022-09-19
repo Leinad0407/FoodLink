@@ -3,7 +3,7 @@ const express = require("express");
 const router = require("express").Router();
 
 const multer = require("multer");
-const { uploadFile } = require("../lib/foodImages3");
+const { uploadFile, getFileStream } = require("../lib/foodImages3");
 
 const upload = multer({
   dest: `https://${process.env.S3_BUCKET_NAME_FOOD}.s3.${process.env.S3_BUCKET_REGION_FOOD}.amazonaws.com`,
@@ -11,12 +11,14 @@ const upload = multer({
 
 const imageFood = require("../models/foodImages");
 
-router.get("/:key", (req, res) => {
-  console.log(req.params);
-  const key = req.params.key;
-  const readStream = getFileStream(key);
-
-  readStream.pipe(res);
+router.get("/", async (req, res) => {
+  // console.log(req.params);
+  // const key = req.params.key;
+  // const readStream = getFileStream(key);
+  // readStream.pipe(res);
+  const food = await imageFood.find({});
+  res.json(food);
+  console.log(food);
 });
 
 router.post("/", upload.single("newFile"), async (req, res) => {

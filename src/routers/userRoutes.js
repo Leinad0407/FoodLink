@@ -3,7 +3,7 @@ const express = require("express");
 const router = require("express").Router();
 
 const multer = require("multer");
-const { uploadFile } = require("../lib/s3");
+const { uploadFile, getFileStream } = require("../lib/s3");
 
 const upload = multer({
   dest: `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.S3_BUCKET_REGION}.amazonaws.com`,
