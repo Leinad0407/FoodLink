@@ -1,46 +1,57 @@
-const express = require("express")
-const { register, login, subirComida } = require("../usecases/user.usecase")
-const { auth } = require("../middlewares/auth.middleware")
+const express = require("express");
 const router = express.Router();
+const User = require("../usecases/user.usecase");
+const auth = require("../middlewares/auth");
 
-router.post("/", async (request, response) => {
-
-  console.log("body", request.body)
+router.get("/", auth, async (req, res) => {
   try {
-    const user = await register(request.body)
+    const allUsers = await User.getAll();
+    res.json(allUsers);
+  } catch (error) {
+    console.error(error);
+    res.statusCode = 500;
+    res.json({ error });
+  }
+});
 
-    response.status(201)
-    response.json({
+router.post("/", async (req, res) => {
+  try {
+    const newUser = req.body;
+
+    const createdUser = await User.createUser(newUser);
+    res.statusCode = 201;
+    res.json(createdUser);
+  } catch (error) {
+    console.error(error);
+    res.statusCode = 500;
+    res.json(error);
+  }
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    const loginInfo = req.body;
+    const token = await User.login(loginInfo);
+    res.json({
       success: true,
       data: {
-        user
-      }
-    })
-  }catch(err) {
-    response.status(400)
-    response.json({
-      success: false,
-      message: err.message
-    })
-  }
-})
+        token,
+      },
+    });
+  } catch (error) {
+    console.error(error);
 
-router.post("/auth", async (request, response) => {
-  try {
-    const token = await login(request.body)
-    response.status(201)
-    response.json({
-      success: true,
-      data: {
-        token
-      }
-    })
-  }catch(err) {
-    response.status(401)
-    response.json({
-      success: false,
-      message: err.message
-    })
+    if (
+      error.message === "User not found" ||
+      error.message === "Wrong password"
+    ) {
+      res.statusCode = 400;
+    } else {
+      res.statusCode = 500;
+    }
+
+    res.json(error);
   }
-})
-module.exports = router
+});
+
+module.exports = router;

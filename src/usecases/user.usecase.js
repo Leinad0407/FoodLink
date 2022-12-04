@@ -1,39 +1,63 @@
-const User = require("../models/user.model")
-const jwt = require("../lib/jwt.lib")
-const bcrypt = require('bcrypt');
+const User = require("../models/user.donor.model");
+const { encrypt, compare } = require("../lib/encryptor");
+const { sign } = require("../lib/jwt");
 
-
-const validarRegistro = (Nombre,Apellido,Direccion,Colonia,Numero,Estado, Ciudad, email, password,telefono, genero, userName) => {
-  return bcrypt.hash(password, 10)
+function getAll() {
+  return User.find();
 }
 
-const validarIniciarSesion = async (email, password) => {
-  const user = await User.findOne({ email })
+async function createUser({
+  persona,
+  usuario,
+  nombre,
+  genero,
+  apellido,
+  direccion,
+  colonia,
+  numero,
+  estado,
+  ciudad,
+  email,
+  password,
+  telefono,
+  negocio,
+  donation,
+}) {
+  const encryptedPassword = await encrypt(password);
 
-  if(!user) throw Error("Correo erroneo")
-
-  const isValid = await bcrypt.compare(password, user.password)
-
-  if (!isValid) throw Error("Password erroneo")
-
-  const token = jwt.sign({ id: user._id })
-  console.log("token", token)
-
-  return token
-
+  return User.create({
+    persona,
+    usuario,
+    nombre,
+    genero,
+    apellido,
+    direccion,
+    colonia,
+    numero,
+    estado,
+    ciudad,
+    email,
+    password: encryptedPassword,
+    telefono,
+    negocio,
+    donation,
+  });
 }
 
-const register = async (data) => {
-  // Aqui va toda nuestra
-  data["password"] = await validarRegistro(data.email, data.password)
-  const userCreated = User.create(data)
-  return userCreated
+async function login({ email, password }) {
+  const userFound = await User.findOne({ email }); //Encuentra a un usuario por su correo
+
+  if (!userFound) throw new Erro("User not found");
+  const encryptedPassword = userFound.password;
+  const isCorrectPassword = await compare(password, encryptedPassword);
+  if (!isCorrectPassword) throw new Error("Wrong password");
+
+  const token = sign({ id: userFound._id }); //se debe pasar un obajeto (para autentificacion)
+  return token;
 }
 
-const login = async (data) => {
-  const token = await validarIniciarSesion(data.email, data.password)
-  return token
-}
-
-
-module.exports = { register, login, }
+module.exports = {
+  getAll,
+  createUser,
+  login,
+};

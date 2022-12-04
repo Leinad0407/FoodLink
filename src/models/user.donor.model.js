@@ -1,31 +1,34 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const userDonorSchema = new mongoose.Schema({
+  persona: { type: String },
+  usuario: { type: String },
   nombre: {
     type: String,
     minlength: 3,
   },
-  Apellido: {
+  genero: { type: String },
+  apellido: {
     type: String,
     minlength: 3,
   },
-  Direccion: {
+  direccion: {
     type: String,
     minlength: 3,
   },
-  Colonia: {
+  colonia: {
     type: String,
     minlength: 3,
   },
-  Numero: {
+  numero: {
+    type: String,
+    minlength: 1,
+  },
+  estado: {
     type: String,
     minlength: 3,
   },
-  Estado: {
-    type: String,
-    minlength: 3,
-  },
-  Ciudad: {
+  ciudad: {
     type: String,
     minlength: 3,
   },
@@ -39,22 +42,15 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 3,
   },
-  Telefono: {
+  telefono: {
     type: Number,
     minlength: 3,
   },
-  Negocio: {
+  negocio: {
     type: String,
     minlength: 3,
   },
-  Genero: {
-    type: Radio,
-    minlength: 3,
-  },
-  userName: {
-    type: String,
-    minlength: 3,
-  },
+  donation: [{ type: String }],
 });
 
-module.exports = mongoose.model("users", userSchema);
+module.exports = mongoose.model("userDonors", userDonorSchema);

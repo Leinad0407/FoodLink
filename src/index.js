@@ -6,6 +6,7 @@ const { get } = require("express/lib/response");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+const userRouter = require("./routers/user.route");
 const donationsRouter = require("./routers/index");
 const uploadImages = require("./routers/userRoutes");
 const foodImages = require("./routers/foodImage");
@@ -24,12 +25,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.use("/users", userRouter);
 app.use("/donations", donationsRouter);
-app.use("/users", uploadImages);
+// app.use("/users", uploadImages);
 app.use("/imagesFood", foodImages);
-// app.use("/api/uploadImage/s3", imagesRouter);
-// app.use("/api/uploadImage", imagesRouter);
-// app.use("/api/uploadImage-2", imagesRouterS3_2);
 
 mongoose
   .connect(URL)
@@ -37,7 +36,6 @@ mongoose
     console.log("Estamos conectados a la base de datos de donaciones");
     app.listen(PORT, () => {
       console.log("Server ejecutandose en el puerto", PORT);
-      console.log(getDonations());
     });
   })
   .catch((error) => {

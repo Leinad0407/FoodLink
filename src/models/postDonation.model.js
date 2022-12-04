@@ -6,8 +6,6 @@ const mongoose = require("mongoose");
 //Hacer validaciones en el backend
 
 const postDonationSchema = new mongoose.Schema({
-  id: String,
-  userName: String,
   food: {
     type: String,
     required: true,
@@ -21,21 +19,20 @@ const postDonationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phoneNumber: String,
-  tags: {
-    type: String,
-    required: true,
-  },
+  phoneNumber: { Type: String },
   postedDate: {
     type: String,
     required: true,
   },
-  expDate: {
+  expiredDate: {
     type: String,
     required: true,
   },
-  foodDescription: String,
-  foodCondition: String,
+  foodDescription: { Type: String },
+  foodCondition: { Type: String },
+  status: {
+    type: String,
+  },
 });
 
 const Donation = mongoose.model("donation", postDonationSchema);
